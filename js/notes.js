@@ -1,1 +1,0 @@
-const subjects=[{title:'Anatomy'},{title:'Physiology'},{title:'Biochemistry'}];

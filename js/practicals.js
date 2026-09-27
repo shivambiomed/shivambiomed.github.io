@@ -1,1 +1,0 @@
-const practicals=[{title:'Gram Staining'}];

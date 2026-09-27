@@ -1,1 +1,0 @@
-const quiz=[{q:'Largest human organ?',a:['Liver','Skin','Heart','Lung'],c:1}];
