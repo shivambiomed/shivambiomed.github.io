@@ -1,1 +1,0 @@
-.orb{position:fixed;border-radius:50%;animation:float 8s ease-in-out infinite}.orb1{width:180px;height:180px;left:8%;top:15%;background:#2bd9ff}.orb2{width:120px;height:120px;right:10%;bottom:18%;background:#ffc44d}.orb3{width:90px;height:90px;right:25%;top:30%;background:#fff}@keyframes float{50%{transform:translateY(-22px) rotate(8deg)}}
