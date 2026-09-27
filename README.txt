@@ -1,0 +1,1 @@
+Place your hero.mp4 here and rename your uploaded video to hero.mp4
