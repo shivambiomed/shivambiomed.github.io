@@ -487,7 +487,7 @@ html,body{max-width:100%;overflow-x:hidden}
 .final-showcase.results-visible{opacity:1;transform:none}
 .quiz-result-mode .quiz-card{animation:resultsCardIn .8s ease both}
 @keyframes resultsCardIn{0%{opacity:0;transform:scale(.985)}100%{opacity:1;transform:none}}
-#notes .subject-card:nth-child(1) span:before{content:"🫀"}#notes .subject-card:nth-child(2) span:before{content:"⚙️"}#notes .subject-card:nth-child(3) span:before{content:"🧪"}#notes .subject-card:nth-child(4) span:before{content:"🩸"}#notes .subject-card:nth-child(5) span:before{content:"🔎"}#notes .subject-card:nth-child(6) span:before{content:"🦠"}#notes .subject-card:nth-child(7) span:before{content:"🪱"}#notes .subject-card:nth-child(8) span:before{content:"🛡️"}#notes .subject-card:nth-child(9) span:before{content:"🔬"}#notes .subject-card:nth-child(10) span:before{content:"🧫"}#notes .subject-card:nth-child(11) span:before{content:"🩸"}#notes .subject-card:nth-child(12) span:before{content:"🧬"}#notes .subject-card:nth-child(13) span:before{content:"🧬"}#notes .subject-card:nth-child(14) span:before{content:"⚗️"}#notes .subject-card:nth-child(15) span:before{content:"✅"}#notes .subject-card:nth-child(16) span:before{content:"📊"}#notes .subject-card:nth-child(17) span:before{content:"🥗"}#notes .subject-card:nth-child(18) span:before{content:"⚖️"}#notes .subject-card span:before{display:inline-grid;place-items:center;width:34px;height:34px;margin-right:10px;border-radius:11px;background:linear-gradient(135deg,rgba(43,179,192,.13),rgba(123,92,255,.12));font-size:20px;vertical-align:middle;animation:noteIconFloat 3s ease-in-out infinite}#notes .subject-card:hover span:before{animation:noteIconPop .45s ease both}@keyframes noteIconFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(2deg)}}@keyframes noteIconPop{0%{transform:scale(1)}55%{transform:scale(1.2) rotate(-6deg)}100%{transform:scale(1)}}
+#notes .subject-card span:before{content:none!important;display:none!important}#notes .subject-card .subject-icon{display:grid;place-items:center;width:58px;height:58px;margin:0 0 10px;border-radius:16px;background:linear-gradient(135deg,rgba(43,179,192,.13),rgba(123,92,255,.12));color:var(--teal);font-size:0;animation:noteIconFloat 3s ease-in-out infinite}#notes .subject-card .subject-icon svg{display:block;width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#notes .subject-card:hover .subject-icon{animation:noteIconPop .45s ease both}#notes .subject-card:nth-child(1) .subject-icon{color:#e45757}#notes .subject-card:nth-child(2) .subject-icon{color:#d94b68}#notes .subject-card:nth-child(3) .subject-icon{color:#7b5cff}#notes .subject-card:nth-child(4) .subject-icon{color:#e68a24}#notes .subject-card:nth-child(5) .subject-icon{color:#2b9a72}@keyframes noteIconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}@keyframes noteIconPop{0%{transform:scale(1)}55%{transform:scale(1.12)}100%{transform:scale(1)}}
 /* Clean full-screen game mode + animated MLT Notes selection */
 body.quiz-running{overflow:hidden;background:#061b2a}
 body.quiz-running .topbar,body.quiz-running>footer{display:none!important}
@@ -1022,3 +1022,13 @@ html.quiz-fullscreen #quizCard .quiz-footer{flex:0 0 auto!important}
   .mlt-path-steps{justify-content:flex-start}
   .mlt-path-steps i{display:none}
 }
+
+/* Consistent subject icons */
+.subject-card{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.subject-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:15px;background:#eef8f9;border:1px solid #d5e9ec;color:var(--teal2);flex:0 0 auto}
+.subject-icon svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.subject-card span.subject-name{display:block;font-size:17px;font-weight:800;color:var(--teal);margin-bottom:0}
+.subject-card small{display:block;color:var(--muted);line-height:1.5}
+
+/* Subject icon fix: one consistent SVG icon per subject; no generated emoji duplicates. */
+#notes .subject-card .subject-name{display:block;font-size:18px;line-height:1.2;font-weight:800;color:var(--teal);margin-bottom:6px}
