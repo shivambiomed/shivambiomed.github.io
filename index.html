@@ -225,9 +225,29 @@ header:after{width:220px;height:220px;right:-60px;bottom:12%;background:rgba(231
 @media(max-width:760px){.gram-practical .table-scroll table{display:block}.gram-practical .table-scroll thead{display:none}.gram-practical .table-scroll tbody,.gram-practical .table-scroll tr,.gram-practical .table-scroll td{display:block;width:100%}.gram-practical .table-scroll tr{margin:0 0 12px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}.gram-practical .table-scroll td{border:0;border-bottom:1px solid #e5eef0;padding:10px 12px;display:grid;grid-template-columns:105px minmax(0,1fr);gap:10px;line-height:1.45}.gram-practical .table-scroll td:last-child{border-bottom:0}.gram-practical .table-scroll td::before{content:attr(data-label);font-weight:800;color:var(--teal)}.extra-diagram-grid{grid-template-columns:1fr}.extra-diagram.wide{grid-column:auto}.extra-diagram{padding:11px}}
 </style>
 <style id="universal-back-style">
-.global-back-btn{position:fixed;top:92px;left:18px;z-index:1200;display:none;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:10px 16px;background:rgba(8,47,73,.94);color:#fff;font-weight:800;box-shadow:0 10px 28px rgba(8,47,73,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.global-back-btn.show{display:inline-flex}.global-back-btn:hover{transform:translateY(-1px)}
+.global-back-btn{display:none !important}
+.global-back-btn.show{display:none !important}.global-back-btn:hover{transform:translateY(-1px)}
 .action-back-btn{display:inline-flex;align-items:center;gap:7px;margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:10px 15px;background:#f7fbfc;color:var(--teal);font-weight:800}
+
+/* Global 3D effect */
+.card,.panel,.subject-card,.stat,.quick-card,.detail,.quiz-card,.extra-card,.practical-card{
+  transform-style:preserve-3d;
+  perspective:1200px;
+  transition:transform .35s ease, box-shadow .35s ease;
+}
+.card:hover,.panel:hover,.subject-card:hover,.stat:hover,.quick-card:hover,.detail:hover,.quiz-card:hover,.extra-card:hover,.practical-card:hover{
+  transform:rotateX(6deg) rotateY(-6deg) translateY(-8px) scale(1.02);
+  box-shadow:0 28px 60px rgba(8,47,73,.22);
+}
+.hero-btn,.nav-btn{
+  transform-style:preserve-3d;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.hero-btn:hover,.nav-btn:hover{
+  transform:translateY(-3px) rotateX(8deg);
+  box-shadow:0 16px 30px rgba(8,47,73,.18);
+}
+
 </style>
 <style>
 /* Animated final ranking reveal */
