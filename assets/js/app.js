@@ -273,7 +273,7 @@ function mergeAIQuestions(items){
   const existing=new Set(aiGeneratedBank.map(x=>normalizeQuizQuestion(x.q)));
   let added=0;
   items.forEach(x=>{
-    const item={subject:String(x.subject||'Anatomy'),difficulty:String(x.difficulty||'Medium'),q:String(x.q||x.question||'').trim(),o:Array.isArray(x.o)?x.o.map(String):(Array.isArray(x.options)?x.options.map(String):[]),a:Number(x.a??x.answerIndex),e:String(x.e??x.explanation??'')};
+    const item={subject:String(x.subject||'Biochemistry'),difficulty:String(x.difficulty||'Medium'),q:String(x.q||x.question||'').trim(),o:Array.isArray(x.o)?x.o.map(String):(Array.isArray(x.options)?x.options.map(String):[]),a:Number(x.a??x.answerIndex),e:String(x.e??x.explanation??'')};
     const key=normalizeQuizQuestion(item.q);
     if(item.q&&item.o.length===4&&Number.isInteger(item.a)&&item.a>=0&&item.a<=3&&!existing.has(key)){
       aiGeneratedBank.push(item);existing.add(key);added++;
@@ -299,7 +299,7 @@ async function loadCloudAIQuestions(subject='all'){
 }
 function saveAIQuestionsToCloud(items){
   if(!Array.isArray(items)||!items.length)return cloudQuestionSavePromise;
-  const payload=items.map(x=>({subject:x.subject||'Anatomy',difficulty:x.difficulty||'Medium',question:x.q,options:x.o,answerIndex:x.a,explanation:x.e||''}));
+  const payload=items.map(x=>({subject:x.subject||'Biochemistry',difficulty:x.difficulty||'Medium',question:x.q,options:x.o,answerIndex:x.a,explanation:x.e||''}));
   cloudQuestionSavePromise=cloudQuestionSavePromise.then(async()=>{
     try{
       await fetch(QUESTION_BANK_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({questions:payload})});
@@ -462,7 +462,7 @@ function hideAIGenerating(){
 async function generateAIQuestions(subject,difficulty,count){
   const target=Math.max(1,Math.min(1000,Number(count)||10));
   const subjectSelect=document.getElementById('singleQuizSubject')||document.getElementById('hostQuizSubject');
-  const subjects=subject==='all'?[...new Set(subjectSelect?Array.from(subjectSelect.options).map(o=>o.value).filter(v=>v&&v!=='all'):['Anatomy'])]:[subject];
+  const subjects=subject==='all'?[...new Set(subjectSelect?Array.from(subjectSelect.options).map(o=>o.value).filter(v=>v&&v!=='all'):['Biochemistry'])]:[subject];
   let needed=target;
   const newItems=[];
   let cursor=0;
@@ -489,7 +489,7 @@ async function generateAIQuestions(subject,difficulty,count){
 
 async function generateOneAIQuestion(subject,difficulty,excludeKeys=new Set()){
   const subjectSelect=document.getElementById('singleQuizSubject')||document.getElementById('hostQuizSubject');
-  const subjects=subject==='all'?[...new Set(subjectSelect?Array.from(subjectSelect.options).map(o=>o.value).filter(v=>v&&v!=='all'):['Anatomy'])]:[subject];
+  const subjects=subject==='all'?[...new Set(subjectSelect?Array.from(subjectSelect.options).map(o=>o.value).filter(v=>v&&v!=='all'):['Biochemistry'])]:[subject];
   for(let attempt=0;attempt<4;attempt++){
     const currentSubject=subjects[Math.floor(Math.random()*subjects.length)];
     const res=await fetch(QUESTION_GENERATOR_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:currentSubject,difficulty,count:1,format:'single_select',language:'en'})});
