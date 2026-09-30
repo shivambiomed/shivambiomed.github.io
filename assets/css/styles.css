@@ -1169,6 +1169,12 @@ body.quiz-active .topbar,
 body.quiz-active .mlt-mobile-header,
 body.quiz-active .global-back-btn { display:none !important; }
 body.quiz-active { padding-top:0 !important; }
+html.quiz-fullscreen .topbar,
+html.quiz-fullscreen .mlt-mobile-header,
+html.quiz-fullscreen .mlt-drawer,
+html.quiz-fullscreen .mlt-drawer-overlay,
+html.quiz-fullscreen .global-back-btn { display:none !important; }
+
 
 
 
