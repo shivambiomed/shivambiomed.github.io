@@ -61,7 +61,7 @@ function renderQuizLiveFromHistory(){
   const single=document.getElementById('singleSetup');
   if(single)single.style.display='none';
   setQuizScreenMode('player');
-  currentAppStage='quiz-live';
+  currentAppStage='quiz-live'; window.dispatchEvent(new Event('quiz-stage-change'));
   lastAppView='quiz';
   updateGlobalBack();
   if(quizQuestions.length)startSingleQuestion();
@@ -103,7 +103,16 @@ function resetQuizToHome(){
   setRoomStatus('');
   currentAppStage='quiz-home';
   lastAppView='quiz';
+  window.dispatchEvent(new Event('quiz-stage-change'));
+  // Explicitly restore the site header after leaving an active quiz.
+  document.body.classList.remove('quiz-active');
+  if(typeof window.setQuizHeaderHidden==='function') window.setQuizHeaderHidden(false);
   updateGlobalBack();
+  // Run once more after the view has finished updating so the header cannot remain hidden.
+  setTimeout(function(){
+    document.body.classList.remove('quiz-active');
+    if(typeof window.setQuizHeaderHidden==='function') window.setQuizHeaderHidden(false);
+  },50);
 }
 
 function showView(viewId,updateHistory=true){const target=document.getElementById(viewId);if(!target)return;const notesView=document.getElementById('notes');if(viewId==='notes' && !noteDetail?.classList.contains('active'))notesView?.classList.remove('note-open');lastAppView=viewId;if(viewId!=='quiz')document.body.classList.remove('quiz-running');views.forEach(v=>{v.classList.remove('active','page-animate');});void target.offsetWidth;target.classList.add('active','page-animate');const homeHighlights=document.getElementById('homeHighlights');if(homeHighlights)homeHighlights.classList.remove('active');const mltOfferings=document.getElementById('mltOfferings');if(mltOfferings)mltOfferings.classList.remove('active');navButtons.forEach(b=>b.classList.toggle('active',b.dataset.view===viewId));if(viewId!=='notes')closeNote(false);if(updateHistory){const url=viewId==='home'?location.pathname+location.search:'#'+viewId;history.pushState({view:viewId,stage:viewId},'',url);}currentAppStage=viewId==='notes'&&noteDetail?.classList.contains('active')?'note-detail':viewId;updateGlobalBack();window.scrollTo({top:0,behavior:'smooth'})}
@@ -139,6 +148,11 @@ document.querySelectorAll('[data-view-jump]').forEach(b=>b.addEventListener('cli
 subjectGrid.addEventListener('click',e=>{const b=e.target.closest('[data-subject]');if(b)openNote(b.dataset.subject)});
 window.addEventListener('popstate',e=>{
   const state=e.state||{}; const hash=location.hash.replace(/^#/,'');
+  if(currentAppStage==='quiz-live' && !session?.completed){
+    history.pushState({view:'quiz',stage:'quiz-live'},'', '#quiz-live');
+    showLeaveQuizModal();
+    return;
+  }
   // After the quiz is finished, browser Back must skip the last question screen
   // and return directly to Quiz Home.
   if((state.stage==='quiz-live'||hash==='quiz-live') && session?.completed){
@@ -602,6 +616,27 @@ async function startSinglePlayer(){
   // Prepare upcoming questions in the background while the player answers.
   prefetchSingleAIQuestions(subject,difficulty,10).catch(()=>{});
 }
+function showLeaveQuizModal(){
+  let modal=document.getElementById('leaveQuizModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='leaveQuizModal';
+    modal.className='leave-quiz-modal';
+    modal.innerHTML='<div class="leave-quiz-dialog" role="dialog" aria-modal="true" aria-label="Quiz options"><button type="button" class="leave-quiz-choice" id="leaveQuizConfirm">Leave Quiz</button><button type="button" class="leave-quiz-choice" id="leaveQuizContinue">Continue Quiz</button></div>';
+    document.body.appendChild(modal);
+    document.getElementById('leaveQuizConfirm').addEventListener('click',()=>{hideLeaveQuizModal();resetQuizToHome();});
+    document.getElementById('leaveQuizContinue').addEventListener('click',hideLeaveQuizModal);
+  }
+  modal.classList.add('show');
+}
+function hideLeaveQuizModal(){
+  document.getElementById('leaveQuizModal')?.classList.remove('show');
+}
+function leaveQuizFromActiveQuestion(){
+  if(currentAppStage==='quiz-live' && !session?.completed){showLeaveQuizModal();return true;}
+  return false;
+}
+
 function startSingleQuestion(){
   clearTimeout(questionTimer);questionLocked=false;questionStartedAt=Date.now();
   const p=players[0];if(p){p.answeredThisQuestion=false;p.retryUsed=false;}
@@ -611,7 +646,8 @@ function startSingleQuestion(){
 function renderSingleQuestion(){
   const card=document.getElementById('quizCard'),item=quizQuestions[quizIndex];if(!card||!item)return;
   const order=shuffle(item.o.map((label,i)=>({label,i})));
-  card.innerHTML=`<div class="quiz-live-shell"><div class="quiz-score">SINGLE PLAYER · Question ${quizIndex+1} of ${quizQuestions.length}</div><div class="quiz-timer" id="singleTimer">25.0s</div><div class="quiz-progress"><span id="singleProgress" style="width:100%"></span></div><div class="quiz-q">${esc(cleanQuizQuestion(item.q))}</div><div class="quiz-options">${order.map(x=>`<button class="quiz-option" type="button" data-answer="${x.i}">${esc(x.label)}</button>`).join('')}</div><div class="quiz-feedback" id="singleFeedback"></div></div>`;
+  card.innerHTML=`<div class="quiz-live-shell"><div class="quiz-score">SINGLE PLAYER · Question ${quizIndex+1} of ${quizQuestions.length}</div><div class="quiz-timer" id="singleTimer">25.0s</div><div class="quiz-progress"><span id="singleProgress" style="width:100%"></span></div><div class="quiz-q">${esc(cleanQuizQuestion(item.q))}</div><div class="quiz-options">${order.map(x=>`<button class="quiz-option" type="button" data-answer="${x.i}">${esc(x.label)}</button>`).join('')}</div><button class="quiz-leave-btn" id="quizLeaveBtn" type="button">Leave Quiz</button><div class="quiz-feedback" id="singleFeedback"></div></div>`;
+  document.getElementById('quizLeaveBtn')?.addEventListener('click',showLeaveQuizModal);
   const localStart=questionStartedAt;
   const tick=()=>{const left=Math.max(0,QUESTION_DURATION-(Date.now()-localStart));const t=document.getElementById('singleTimer'),bar=document.getElementById('singleProgress');if(t){t.textContent=(left/1000).toFixed(1)+'s';t.classList.toggle('timer-warning',left<=5000&&left>3000);t.classList.toggle('timer-critical',left<=3000&&left>0)}if(bar)bar.style.width=(left/QUESTION_DURATION*100)+'%';if(left>0&&!questionLocked)requestAnimationFrame(tick);};
   requestAnimationFrame(tick);
@@ -1398,3 +1434,31 @@ document.querySelectorAll('.mlt-offering-action').forEach(function(btn){
     if(target && typeof showView==='function') showView(target);
   });
 });
+
+(function(){
+  // Header visibility is controlled by the actual quiz stage, not by the
+  // #quiz section being active. The quiz home also uses #quiz.active.
+  window.setQuizHeaderHidden = function(active){
+    document.body.classList.toggle('quiz-active', !!active);
+  };
+})();
+
+(function(){
+  function syncQuizHeader(){
+    var live = (typeof currentAppStage !== 'undefined' && currentAppStage === 'quiz-live');
+    document.body.classList.toggle('quiz-active', live);
+  }
+  window.setQuizHeaderHidden = function(active){ document.body.classList.toggle('quiz-active', !!active); };
+  syncQuizHeader();
+  window.addEventListener('popstate', function(){ setTimeout(syncQuizHeader, 30); });
+})();
+
+(function(){
+  function sync(){
+    var live=(typeof currentAppStage!=='undefined' && currentAppStage==='quiz-live');
+    document.body.classList.toggle('quiz-active',live);
+  }
+  window.addEventListener('quiz-stage-change',sync);
+  window.addEventListener('pageshow',sync);
+  sync();
+})();
