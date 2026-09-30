@@ -1,3 +1,4 @@
+
 /* ===== Original inline style block 1 ===== */
 :root{--ink:#12232b;--muted:#61737b;--teal:#0d3b4c;--teal2:#176b7d;--paper:#f4f7f8;--line:#d9e3e6;--shadow:0 16px 45px rgba(13,59,76,.1);--radius:20px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.65}button{font:inherit;cursor:pointer}.topbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 18px;display:flex;justify-content:center;pointer-events:none}.nav{pointer-events:auto;display:flex;gap:8px;padding:7px;background:rgba(7,34,44,.86);border:1px solid rgba(255,255,255,.18);border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}.nav-btn{border:0;border-radius:999px;padding:10px 18px;background:transparent;color:#eaf5f7;font-weight:700;transition:.2s ease;min-width:104px}.nav-btn.active{background:#fff;color:var(--teal);transform:translateY(-1px)}
@@ -1149,3 +1150,50 @@ html.quiz-fullscreen #quizCard .quiz-footer{flex:0 0 auto!important}
   #notes.note-open{width:100vw;margin-left:calc(50% - 50vw)}
   #notes.note-open > .note-detail.active{min-height:calc(100svh - 68px);padding:18px 14px 45px}
 }
+
+
+/* Minimal active-quiz leave controls */
+.quiz-leave-btn{display:block;width:100%;margin:16px 0 0;padding:12px 16px;border:1px solid rgba(13,59,76,.18);border-radius:12px;background:#fff;color:#0d3b4c;font-weight:700;font-size:15px;cursor:pointer}
+.quiz-leave-btn:active{transform:scale(.99)}
+.leave-quiz-modal{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.42);padding:20px}
+.leave-quiz-modal.show{display:flex}
+.leave-quiz-dialog{width:min(320px,92vw);background:#fff;border-radius:16px;padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.25);display:grid;gap:8px}
+.leave-quiz-choice{width:100%;border:0;border-radius:11px;background:#f2f5f6;color:#0d3b4c;padding:14px 12px;font:inherit;font-weight:700;cursor:pointer}
+.leave-quiz-choice:active{transform:scale(.99)}
+.leave-quiz-choice:first-child{background:#0d3b4c;color:#fff}
+
+
+
+
+body.quiz-active .topbar,
+body.quiz-active .mlt-mobile-header,
+body.quiz-active .global-back-btn { display:none !important; }
+body.quiz-active { padding-top:0 !important; }
+
+
+
+/* Performance pass: keep interactions smooth on mobile/low-power devices. */
+.view{will-change:auto!important;}
+.view.active .section-head,.view.active .panel,.view.active .card,.view.active .subject-card,.view.active .contact-grid{animation-duration:.28s!important;}
+.page-animate{animation-duration:.28s!important;}
+/* Disable continuous decorative animations; keep only short entrance/interaction motion. */
+header:before,header:after,.profile-photo,.availability:before,#notes .note-topic-expanded:after,.mlt-study-path,.mlt-offering-card,.status-dot{animation:none!important;}
+#notes .note-topic-expanded{animation:topicCardIn .28s ease both!important;}
+.hero,.ai-gen-glow{animation:none!important;}
+/* Expensive blur is especially costly on Android. */
+.topbar,.note-tools,.ai-generating-overlay{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+/* Avoid large shadow repaints during scrolling. */
+@media(max-width:800px){
+  *{scroll-behavior:auto!important;}
+  .view.active .card,.view.active .subject-card,.view.active .panel,.view.active .contact-grid{animation:none!important;}
+  .mlt-offering-card{animation:none!important;}
+  .leave-quiz-modal{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+
+
+
+body.quiz-active .topbar,
+body.quiz-active .mlt-mobile-header,
+body.quiz-active .global-back-btn { display:none !important; }
+body.quiz-active { padding-top:0 !important; }
