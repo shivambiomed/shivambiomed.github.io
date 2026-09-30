@@ -609,6 +609,10 @@ async function startSinglePlayer(){
   document.getElementById('quizStats').style.display='none';
   setQuizScreenMode('player');
   currentAppStage='quiz-live';
+  // Hide the global website header immediately when the live quiz starts.
+  document.body.classList.add('quiz-active');
+  if(typeof window.setQuizHeaderHidden==='function') window.setQuizHeaderHidden(true);
+  window.dispatchEvent(new Event('quiz-stage-change'));
   history.pushState({view:'quiz',stage:'quiz-live'},'', '#quiz-live');
   if(btn){btn.disabled=false;btn.textContent='Start Single Player';}
   hideAIGenerating();
