@@ -1203,3 +1203,10 @@ body.quiz-active .topbar,
 body.quiz-active .mlt-mobile-header,
 body.quiz-active .global-back-btn { display:none !important; }
 body.quiz-active { padding-top:0 !important; }
+
+
+/* SEO-friendly crawlable resource links */
+.seo-resource-links{padding:2rem 1rem;margin:0 auto;max-width:1100px}
+.seo-resource-links .container{max-width:1000px;margin:auto}
+.seo-resource-links nav{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1rem}
+.seo-resource-links nav a{display:inline-block;padding:.55rem .8rem;border-radius:.55rem;text-decoration:none}
