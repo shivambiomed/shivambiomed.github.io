@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://shivambiomed.github.io/sitemap.xml

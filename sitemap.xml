@@ -1,1 +1,11 @@
-<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://shivambiomed.github.io/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/microbiology/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/hematology/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/biochemistry/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/genetics/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/immunology/</loc></url>
+  <url><loc>https://shivambiomed.github.io/mlt-notes/gram-staining/</loc></url>
+</urlset>
