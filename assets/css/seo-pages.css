@@ -1,19 +1,116 @@
-
-:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#17313a;background:#f7fafb}
-body{margin:0;line-height:1.7}
+:root{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#17313a;
+  background:#eaf5f7;
+  --navy:#073b4c;
+  --teal:#087f8c;
+  --cyan:#25a9b8;
+  --gold:#e9b949;
+  --paper:#eef8fa;
+  --line:#cfe4e8;
+  --muted:#587078;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  line-height:1.7;
+  background:
+    radial-gradient(circle at 5% 10%,rgba(37,169,184,.12),transparent 25%),
+    radial-gradient(circle at 95% 85%,rgba(233,185,73,.10),transparent 22%),
+    linear-gradient(180deg,#eef9fa 0%,#e7f3f6 100%);
+}
 .wrap{max-width:920px;margin:auto;padding:24px}
-header{background:#0d3b4c;color:#fff;padding:22px 0}
-header a{color:#fff}
-nav{display:flex;flex-wrap:wrap;gap:14px}
-main{background:#fff;margin:28px auto;padding:28px;border-radius:14px;box-shadow:0 3px 18px rgba(0,0,0,.06)}
-h1,h2,h3{line-height:1.25;color:#123b48}
-h1{font-size:clamp(2rem,5vw,3rem)}
-h2{margin-top:2rem}
-.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-.card{border:1px solid #dbe7eb;border-radius:12px;padding:18px}
+header{
+  background:linear-gradient(135deg,#073b4c 0%,#086b79 55%,#0d8792 100%);
+  color:#fff;
+  padding:22px 0;
+  box-shadow:0 8px 25px rgba(7,59,76,.18);
+}
+header a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+  padding:7px 10px;
+  border-radius:8px;
+  transition:.2s ease;
+}
+header a:hover{background:rgba(255,255,255,.14)}
+nav{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+main{
+  background:rgba(255,255,255,.94);
+  margin:28px auto;
+  padding:30px;
+  border-radius:20px;
+  border:1px solid rgba(207,228,232,.9);
+  box-shadow:0 14px 40px rgba(7,59,76,.10);
+}
+h1,h2,h3{line-height:1.25;color:var(--navy)}
+h1{
+  font-size:clamp(2rem,5vw,3rem);
+  margin-top:0;
+  margin-bottom:12px;
+}
+main>p{color:var(--muted);max-width:760px}
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px;
+  margin-top:24px;
+}
+.card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  background:linear-gradient(145deg,#fff 0%,#f7fcfd 100%);
+  box-shadow:0 7px 22px rgba(7,59,76,.07);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.card:before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:5px;
+  background:linear-gradient(180deg,var(--cyan),var(--gold));
+}
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#9ed3da;
+  box-shadow:0 14px 30px rgba(7,59,76,.12);
+}
 .card h2,.card h3{margin-top:0}
-a{color:#075f79}
-footer{padding:30px 0;text-align:center;color:#49636b}
-.note{background:#eef7f9;border-left:4px solid #0d3b4c;padding:14px 16px}
+.card h2{font-size:1.25rem;padding-left:4px}
+.card p{color:var(--muted);font-size:.95rem;margin-bottom:0}
+a{color:#066b7a}
+.card a{text-decoration:none}
+.card a:hover{text-decoration:underline}
+footer{
+  padding:30px 0;
+  text-align:center;
+  color:#d6e8eb;
+  background:#07303e;
+  border-top:4px solid var(--gold);
+}
+.note{
+  background:#e6f7f9;
+  border-left:5px solid var(--teal);
+  padding:14px 16px;
+  border-radius:0 10px 10px 0;
+}
 ul{padding-left:1.4rem}
-@media(max-width:600px){main{margin:16px 8px;padding:20px}.wrap{padding:16px}}
+@media(max-width:600px){
+  .wrap{padding:16px}
+  main{margin:16px 8px;padding:20px 16px;border-radius:16px}
+  header{padding:16px 0}
+  nav{gap:4px}
+  header a{font-size:14px;padding:6px 7px}
+  .card-grid{grid-template-columns:1fr;gap:14px}
+}
+
+.card.microbiology{background:linear-gradient(145deg,#ffffff,#eaf9f6)}
+.card.hematology{background:linear-gradient(145deg,#ffffff,#fff1f2)}
+.card.biochemistry{background:linear-gradient(145deg,#ffffff,#fff8e8)}
+.card.genetics{background:linear-gradient(145deg,#ffffff,#f2efff)}
+.card.immunology{background:linear-gradient(145deg,#ffffff,#edf5ff)}
+.card.gram-staining{background:linear-gradient(145deg,#ffffff,#f0f7f9)}
